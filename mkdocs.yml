@@ -1,0 +1,65 @@
+site_name: Particle
+
+copyright: Copyright © 2023 100k为什么. All rights reserved. 陕ICP备2023006299号
+
+repo_url: https://github.com/what-s-particle/particle-docs
+theme:
+  name: material
+  language: 'zh'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+    palette:
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+        toggle:
+          icon: material/toggle-switch-off-outline
+          name: Switch to dark mode
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+        toggle:
+          icon: material/toggle-switch
+          name: Switch to light mode
+  features:
+    # 开启文档标题侧边栏
+    - toc.integrate
+    - navigation.footer
+
+extra_css:
+  - stylesheets/extra.css
+extra:
+  search:
+    language: 'jp'
+  palette:
+    primary: 'Blue Grey'
+    accent: 'Pink'
+extra_javascript:
+  - 'js/baidu-tongji.js'
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - toc:
+      permalink: true
+  - footnotes
+  - meta
+  - def_list
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_png
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.tilde
+
+# docker run --rm -it -p 3002:3002 -v ${PWD}:/docs squidfunk/mkdocs-material

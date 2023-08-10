@@ -1,0 +1,650 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../part2/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>探索Server-driven UI - Particle</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#server-driven-ui" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Particle" class="md-header__button md-logo" aria-label="Particle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Particle
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              探索Server-driven UI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/what-s-particle/particle-docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Particle" class="md-nav__button md-logo" aria-label="Particle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Particle
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/what-s-particle/particle-docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        开始
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          概念
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          概念
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          探索Server-driven UI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        探索Server-driven UI
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sdui" class="md-nav__link">
+    SDUI是什么
+  </a>
+  
+    <nav class="md-nav" aria-label="SDUI是什么">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    代码快速产品化，并少一些事故
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    控制尽量精细化，并有原生体验
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    所以，它是什么
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#particle" class="md-nav__link">
+    Particle 模型介绍
+  </a>
+  
+    <nav class="md-nav" aria-label="Particle 模型介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    举个例子
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#particle_1" class="md-nav__link">
+    Particle 设计和实现
+  </a>
+  
+    <nav class="md-nav" aria-label="Particle 设计和实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    基本单元
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    图形单元
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    行为单元
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    数据传输
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#particlesdui" class="md-nav__link">
+    从Particle再回到SDUI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    参考资料
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        Revolutionize UI development with a general Server-Driven UI model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="server-driven-ui">探索Server-driven UI<a class="headerlink" href="#server-driven-ui" title="Permanent link">&para;</a></h1>
+<h2 id="sdui">SDUI是什么<a class="headerlink" href="#sdui" title="Permanent link">&para;</a></h2>
+<p>SDUI 是近来讨论比较多的一个话题，在前半年的<a href="https://www.thoughtworks.com/radar/techniques/server-driven-ui">TW技术雷达</a>中我们有看到它。我也在SmartThing CoE组织的社区活动中和很多同事有过探讨和分享。我想借这篇文章，用文字的形式介绍下SDUI的来龙去脉，并提出我的SDUI particle模型和各位一起讨论。</p>
+<p>Server-driven UI (or Backend driven UI) 顾名思义，服务端驱动客户端的UI展示，在<code>everything being done client side</code>之外提供了一种UI实现思路。</p>
+<p>从我找到的一些资料看，2016年的时候Spotify已经在做这样的事情。Spotify作为音乐流媒体服务，经常需要围绕播放列表做一些UI尝试，所以SDUI架构让他们的播放列表相关的一系列UI组件进行快速修改。这是找到的Spotify Android Dev的一个<a href="https://www.youtube.com/watch?v=vuCfKjOwZdU&amp;feature=youtu.be">演讲视频</a>，非常精彩。</p>
+<p>当然，Spotify不是个例，我在这个<a href="https://github.com/MobileNativeFoundation/discussions/discussions/47">Github讨论帖</a>中看到 <code>Molotov.tv</code>, <code>Airbnb</code>,<code>Lyft</code>等等, 甚至<code>REA Group</code>(我们的客户)，他们比较细致且总结性的描述了各自在公司(或项目)上对SDUI的实践。你从中可以感受到他们为之付出的探索和热情。</p>
+<p>我想在这个章节从两个角度来思考SDUI的产生和演进。</p>
+<h3 id="_1">代码快速产品化，并少一些事故<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>我们知道，移动应用一直存在版本控制问题，并不是所有用户总会(或者第一时间会)更新他们的应用程序。</p>
+<p>常见的开发团队，在交付成熟以后，基本上每个迭代都会往市场推送应用更新，也就是每两周或者每个月一次的频率。我们为此付出了很多努力，我们投入资源，我们改进流程，只是为了快速迭代更新。但这个时候我们还是有两个问题需要思考。<code>1. 用户明天能升级到最新版本吗</code>，<code>2. 我们能在做完测试后后直接部署吗</code>。</p>
+<p>如果我们有一套系统，假设客户端支持服务端给的响应，我们的代码一旦合入Master分支，用户立即就能体验到新版本，这个新版本可能是做了一些新特性，也可能是回退了代码。总之，它快速的解决了用户和PO的需求。</p>
+<p>在事故(或bug)层面，不仅仅是我上一段提到的回退代码来解决用户问题。如果线上事故来源于信息（需求，方案等）的传递，比如对信息的理解不一致（我要澄清的是，某个角色对信息的理解可能出现错误，但是几个角色理解不一致出错的概率更大），那我希望这套系统能更智能一些--iOS，Android，Web的业务逻辑在一端控制。这个系统不能避免错误，但可以让逻辑在一个端输入。</p>
+<h3 id="_2">控制尽量精细化，并有原生体验<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>在我描述完上一段后，脑海里可能出现了一个场景，这个系统不就是这样吗---我们在浏览器输入“<a href="http://www.baidu.com">www.baidu.com</a>”, 它将展示什么页面，服务端完全控制。是的，这就SDUI，但不完全是。</p>
+<p>移动应用的页面有的简单，有的复杂，绘制和业务逻辑就在我们写的代码中。如果今天优化的页面层级，明天可能就会优化页面的跳转逻辑，有时候，文字加粗，变色也会被提出来。但是，这些远远不是最细小的细节。从某个层面（<del>追求</del>）来说，SDUI控制更精细度似乎可以证明自己更强大。</p>
+<p>我们知道移动平台提供了很多框架，很多API，还有很多的努力，致力于改进用户使用应用的体验，点击，滑动，跳转，它们变得越来越有趣和丝滑。假如我们在整个Application中提供一个WebView加一个Root URL，显然它是没有太大意义的-- 浏览器做的更好。</p>
+<p>这就是SDUI的选择，也是SDUI的演进，它徘徊在HTML和CDUI之间。</p>
+<p><img alt="SDUI-progress" src="https://raw.githubusercontent.com/server-control/SDUI-res/main/SDUI-Imp.jpg" />
+CDUI是传统上构建移动或前端应用程序的方式，客户端知道并能决定如何构建用户界面。
+HTML是作为服务器驱动 UI 的极端版本​​，服务器控制一切。
+BFF 客户端做出大部分决策，服务端会有一些对于API级别的控制。
+Toggle 基本上保证了原生的体验，可以用于一些feature级别的控制。
+Particle模型中，服务器描述了 UI 的表现、变化行为，并在一定的颗粒度上来描述，它了解全部的业务。同时，它也有接近CDUI的原生体验。</p>
+<h3 id="_3">所以，它是什么<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>SDUI是一个领域术语，它的意思是服务器来驱动用户界面的呈现。
+SDUI是一个解决方案，它可以实现一些常见（特殊）的软件需求。
+SDUI是一个描述语言，它定义了服务器和客户端的合作方式（包括细节）。</p>
+<p>服务端驱动UI的背后，也驱动了需求落地，驱动了业务迭代。显然在这个系统下，产品的决策将更容易。</p>
+<h2 id="particle">Particle 模型介绍<a class="headerlink" href="#particle" title="Permanent link">&para;</a></h2>
+<p><a href="https://baike.baidu.com/item/%E7%B2%92%E5%AD%90/81757">粒子（particle）</a>，是指能够以自由状态存在的最小物质组成部分。最早发现的粒子是原子、电子和质子，1932年又发现中子，确认原子由电子、质子和中子组成，它们比起原子来是更为基本的物质组分，于是称之为基本粒子。以后这类粒子发现越来越多，累计已超过几百种，且还有不断增多的趋势；此外这些粒子中有些粒子迄今的实验尚未发现其有内部结构，有些粒子实验显示具有明显的内部结构。看来这些粒子并不属于同一层次，因此基本粒子一词已成为历史，如今统称为粒子。粒子并不是像中子、质子等实际存在的具体的物质，而是它们的统称，是一种模型理念。
+从来自百科的描述中，我们了解到科学家在尝试找到粒子的尽头，即发现不可拆解的最小个体。而且他们一直在路上，随着技术的进步，认知的变化，实验室总是有更小的粒子出现。</p>
+<p>再看看一个应用的组成，或许我们可以更简单一些，观察一个显示在屏幕上的页面的组成。
+<img alt="wechat-screen" src="https://raw.githubusercontent.com/server-control/SDUI-res/main/wechat-screen.jpg" />
+如果拆解这个页面，可以看到顶部的状态栏，未读消息个数，搜索图标，添加好友图标。中间是一个对话列表。我想在底部应该还有一个导航Tab。这些都是UI元素，如果仔细看，还有一些未读消息的小红点，点了那个消息，我相信回到列表时红色点会消失--很简单的逻辑。你可能进一步看到了TextView，Image，Icon等开发组件。
+当然页面上还有一些交互，我们可以滑动这个列表查看更多，也可以点击添加好友的图标，还可以双击顶部栏回到列表最顶部。</p>
+<p>抽象一下它，整个页面上包只包含了多个图形单元 + 行为单元。图形单元组成了呈现在眼前画面，行为单元可以按照用户的操作执行对应的图形变化。由于行为要在图形上操作，操作后的响应也是图形的重组。那行为是否可以属于图形？
+particle并没有这么做，我期望的行为单元不只是用户在界面上的操作，比如点击和长按。它还应该包含非图形触发的行为，非图形重组的行为结果。
+比如在上面的图片中，当应用收到websocket推送来的一条新消息，应用需要发送请求到服务端获取这条消息的内容。是的，这也在particle的控制范围，也就是说，应用收到websocket推送来的一条新消息时，业务的逻辑不一定是（虽然现在是）“需要发送请求到服务端获取这条消息的内容”，particle可以在服务端控制它，随时可以改成“应用收到websocket推送来的一条新消息时，弹出一个让用户确认的对话框”。particle模型中，这种变化不需要客户端做任何改动。</p>
+<p>所以用particle模型来描述SDUI，它便是，<strong>在当前认知范围内，一套不可拆分的图形单元和行为单元组成的应用构建系统。</strong> 其中的认知，是SDUI系统构建者的决定，利用这些基本单元制造（组合）的富单元也属于系统的一部分。</p>
+<h3 id="_4">举个例子<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>关于认知和不可拆分。我说一架钢琴是不可拆分的，可能有很多人不理解，但是我说一分钱不可拆分，赞同的人可能会稍微多一些。钢琴和一分钱就在那里，我们很少去纠结钢琴的88个键为什么黑键36个，白键52个。我们也很少尝试去把<code>Text</code>这个组件，<code>Click</code>这个动作再去拆解，这些我在实现particle的时候去展开。</p>
+<p>关于粒子组合。如果C(碳元素)和O(氧元素)是最基本的单元，那么一氧化碳和二氧化碳就是它们组合的富单元。当然，一氧化碳和二氧化碳如果可以拿来做其他的事情就更好了。总之，组合粒子的目的是为了不做重复的事情。</p>
+<h2 id="particle_1">Particle 设计和实现<a class="headerlink" href="#particle_1" title="Permanent link">&para;</a></h2>
+<p>有了上面的SDUI和Particle的介绍，Particle系统应该可以顺利的被设计出来。但是在这之前，我想重申下前面已经提到的原则。这些原则不能轻易被破坏，否则系统可能会倒塌。
+1、不要让客户端知道业务逻辑。
+2、尝试重组，不要重复自己。 </p>
+<p><img alt="particle-cs" src="https://raw.githubusercontent.com/server-control/SDUI-res/main/particle-cs.jpg" />
+Particle系统是CS结构。客户端接入一个library或者module，library提供的API只有Init。基于上面的原则1，客户端不应该知道任何逻辑，它自然不能调用其他API。Particle的服务端按需接入其他服务，以便为客户端实现业务（<del>控制客户端</del>）。
+提供给客户端library，需要实现所有的Particle系统中的图形(富)单元和行为(富)单元。这样做可以保证客户端能“认识”服务端所有的响应。</p>
+<h3 id="_5">基本单元<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>整个系统的的基本单元我也叫它particle，在上面的介绍中我提到，<code>基本构建单元= 图形单元+行为单元</code>。因此可以这样为它建模(我用kotlin语言写的，我会在后面的传输章节中提及这一点，用Protobuf建模是个好选择)。<code>id</code>是Particle的标识，<code>actions</code>是行为单元，<code>modifier</code>是图形单元的的修饰器，后面就是图形单元，一个基本构建单元只能包含一个图形单元。
+<div class="highlight"><pre><span></span><code>data class Particle(
+    var id: String,
+    var actions: MutableList&lt;Action&gt; = mutableListOf(),
+
+    var modifier: Modifier? = null,
+
+    var horizontalStack: HorizontalStack? = null,
+    var verticalStack: VerticalStack? = null,
+    var textView: TextView? = null,
+    var button: Button? = null,
+    var textField: TextField? = null,
+    var icon: Icon? = null,
+    ...
+    ...
+)
+</code></pre></div></p>
+<h3 id="_6">图形单元<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Flexbox弹性盒子</a>和<a href="https://m3.material.io/">materia design材料设计</a>为我提供了如何描述图形界面和Particle图形单元设计的灵感。
+<img alt="flexbox" src="https://raw.githubusercontent.com/server-control/SDUI-res/main/particle-box-mode.jpg" />
+盒子模型中的content是被我设计成了Particle图形单元内容，它可以是Button, Devider, Checkbox。 对内容的修饰的padding, border, width, height我用modifier定义它。看着似曾相识的感觉，是的，现在的移动端大多已经有了这样的UI框架。
+如前文的介绍，SDUI是一种描述语言，我们必须为服务端和客户端定义一种图形的数据形式表达。而从Flexbox入手来设计对于SDUI的开发者和使用者来说更简单一些，因为我想屏蔽iOS，web，Android开发者的技术栈，让任何人都可以快速的开始。
+还有一点，<a href="https://developer.android.com/jetpack/compose">Jetpack compose </a> 和<a href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a>对SDUI的推动是很大的。声明式UI下，state一旦变化会立即触发UI的刷新。这正是Particle模型需要的，包括下面将提到的行为单元中，也是如此。</p>
+<h3 id="_7">行为单元<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>行为单元的设计在Particle模型中是这样的，所有的行为都被抽象成了两部分 trigger 和 effet。而trigger和effect本身也是独立的，它们可以任意组合。甚至我把它设计成了一对多的组合，因为一个trigger的确可能产生多个影响。</p>
+<p>理解它可以从 <a href="https://www.redux.org.cn/docs/basics/Reducers.html">redux reducer</a>入手。下面是一个简单的action例子，如果把这个action和一个Button的图形单元被一起放在Particle中，那么它将被理解成<code>点击按钮时，需要改变一个标识为id1的particle中的图形单元背景为Color_1</code>
+<div class="highlight"><pre><span></span><code>Action(
+    trigger = Trigger.CLICK, effects = mutableListOf(
+        Effect(
+            ChangeModifierEffect(
+                target = Target(id = &quot;id1&quot;),
+                 modifier = Modifier(backgroundColor = ColorToken.COLOR_1)
+           )
+        )
+  )
+)
+</code></pre></div>
+这里也要提到一点，页面的导航，整个应用不可能只有一个页面，我们经常在不同的屏幕之间跳转。这需要行为和图形设计一起完成，我为此花费了很多思考，或许单独再讨论。当然大多数的为了页面变化而设计的Effect都需要关注图形的实现。</p>
+<h3 id="_8">数据传输<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>性能是一个系统无法避开的话题，在这个章节我可以尝试说明下客户端和服务端的传输。传统CDUI的应用会把UI和数据分开，页面用什么组件渲染是按照设计稿完成，当需要为页面的做表单请求，数据加载的操作时，客户端会和服务端有数据传输。
+在particle系统中，整个应用的控制都在服务端控制，UI如何绘制，会触发什么效果，所有以的数据都需要从服务端响应，这是一个挑战。
+比如，系统建模，我们应该做到只传输有效的数据到客户端。数据的序列化和反序列化，需要考虑数据压缩比，还有解析时的成本。<a href="https://developers.google.com/protocol-buffers">protocol-buffers)</a>是 Google 提供的序列化，结构化数据解决方案，它语言中立、平台中立、可扩展，相比XML，Json，但更小、更快、更简单。它是为particle数据建模，传输的好选择。</p>
+<h2 id="particlesdui">从Particle再回到SDUI<a class="headerlink" href="#particlesdui" title="Permanent link">&para;</a></h2>
+<p>通过对Particle的介绍，我想再讨论一下SDUI在工程实践中的实用性，以及如何使用。
+SDUI从2016(可能更早)年被运用在商业应用中，到近期声明式UI的出现对其推动，可以肯定它完全可用。而且我了解到的是很多的项目在全量使用或者局部使用它，当你在项目中恰好有一些痛点和SDUI的初衷不谋而合时，采用它将是个好选择。</p>
+<p>如何使用SDUI，我想举个Particle中shadow的例子，或许你能有一些答案。
+如果我们想为一个图形单元(比如Button)设计一个由服务端控制的shadow，我们需要怎么做呢。
+<img alt="particle-shadow" src="https://raw.githubusercontent.com/server-control/SDUI-res/main/particle-shadow.jpg" />
+光从哪里来，有几个光源，角度等，<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow">CSS box-shadow</a>的是这样定义的，这是一个很好的模型，在客户端也可以画出来它定义的属性，服务端也可以精细的控制阴影。</p>
+<p>单还有一种可能，我在们SDUI中定义5种Shadow，客户端也预设5种Shadow，这就是5个token，当服务端想给某个图形加阴影修饰的时候，发送对应token到客户端即可。选择更少一些又有什大的问题呢。
+这只是一个例子，我想这样的场景还有很多。
+<div class="highlight"><pre><span></span><code>enum class Shadow {
+    DEFAULT, SHADOW1, SHADOW2, SHADOW3, SHADOW4
+}
+</code></pre></div>
+Shadow的使用如此，SDUI的使用也如此。</p>
+<h2 id="_9">参考资料<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">https://css-tricks.com/snippets/css/a-guide-to-flexbox/</a>
+<a href="https://m3.material.io/">https://m3.material.io/</a>
+<a href="https://baike.baidu.com/item/%E7%B2%92%E5%AD%90/81757">https://baike.baidu.com/item/%E7%B2%92%E5%AD%90/81757</a>
+<a href="https://www.youtube.com/watch?v=vuCfKjOwZdU&amp;feature=youtu.be">https://www.youtube.com/watch?v=vuCfKjOwZdU&amp;feature=youtu.be</a>
+<a href="https://github.com/MobileNativeFoundation/discussions/discussions/47">https://github.com/MobileNativeFoundation/discussions/discussions/47</a>
+<a href="https://developers.google.com/protocol-buffers">https://developers.google.com/protocol-buffers</a>
+<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow">https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="上一页: 开始" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                开始
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../part2/" class="md-footer__link md-footer__link--next" aria-label="下一页: Revolutionize UI development with a general Server-Driven UI model" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                Revolutionize UI development with a general Server-Driven UI model
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2023 100k为什么. All rights reserved. 陕ICP备2023006299号
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["toc.integrate", "navigation.footer"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../js/baidu-tongji.js"></script>
+        
+      
+    
+  </body>
+</html>
